@@ -1,24 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\projects\\realwines\\RealWines.NET\\RealWines.NET.csproj": {}
+    "/home/KDLGates/projects/realwines/RealWines.NET/RealWines.NET.csproj": {}
   },
   "projects": {
-    "C:\\projects\\realwines\\RealWines.NET\\RealWines.NET.csproj": {
+    "/home/KDLGates/projects/realwines/RealWines.NET/RealWines.NET.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\realwines\\RealWines.NET\\RealWines.NET.csproj",
+        "projectUniqueName": "/home/KDLGates/projects/realwines/RealWines.NET/RealWines.NET.csproj",
         "projectName": "RealWines.NET",
-        "projectPath": "C:\\projects\\realwines\\RealWines.NET\\RealWines.NET.csproj",
-        "packagesPath": "C:\\Users\\Kristopher Gates\\.nuget\\packages\\",
-        "outputPath": "C:\\projects\\realwines\\RealWines.NET\\obj\\",
+        "projectPath": "/home/KDLGates/projects/realwines/RealWines.NET/RealWines.NET.csproj",
+        "packagesPath": "/home/KDLGates/.nuget/packages/",
+        "outputPath": "/home/KDLGates/projects/realwines/RealWines.NET/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Kristopher Gates\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/KDLGates/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
@@ -35,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -71,12 +74,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.3, 9.0.3]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

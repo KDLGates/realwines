@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RealWines.NET")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd2ed204949ce5d189d423a46e2a9252466279e1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3fad487a480838d64187fbb100d73fca38893647")]
 [assembly: System.Reflection.AssemblyProductAttribute("RealWines.NET")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RealWines.NET")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
