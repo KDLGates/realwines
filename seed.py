@@ -1,149 +1,134 @@
 from app import app, db
-from models import Producer, Variety, Region, Shelf, Wine
+from models import Producer, Variety, Region, Shelf, Wine, Customer, WaitList, ApprovalQueue
 from datetime import datetime
+import json
+import os
 
 def seed_database():
-    """Seed the database with initial data"""
+    """Seed the database with initial data, avoiding duplicates"""
     with app.app_context():
-        # Create tables
+        # Create tables if they don't exist
         db.create_all()
         
-        # Check if data already exists
-        if Producer.query.count() > 0:
-            print("Database already seeded.")
-            return
+        # Seed producers if they don't exist
+        seed_producers = [
+            {'id': 1, 'name': 'Chateau Margaux', 'country': 'France'},
+            {'id': 2, 'name': 'Penfolds', 'country': 'Australia'},
+            {'id': 3, 'name': 'Opus One Winery', 'country': 'United States'},
+            {'id': 4, 'name': 'Tenuta San Guido', 'country': 'Italy'},
+            {'id': 5, 'name': 'Cloudy Bay', 'country': 'New Zealand'}
+        ]
+        
+        for producer_data in seed_producers:
+            # Check if producer already exists by ID or name
+            existing_producer = Producer.query.filter(
+                (Producer.id == producer_data['id']) | 
+                (Producer.name == producer_data['name'])
+            ).first()
             
-        # Seed producers
-        producers = [
-            Producer(id=1, name='Chateau Margaux', country='France'),
-            Producer(id=2, name='Penfolds', country='Australia'),
-            Producer(id=3, name='Opus One Winery', country='United States'),
-            Producer(id=4, name='Tenuta San Guido', country='Italy'),
-            Producer(id=5, name='Cloudy Bay', country='New Zealand')
-        ]
-        db.session.add_all(producers)
+            if not existing_producer:
+                db.session.add(Producer(**producer_data))
+                print(f"Added producer: {producer_data['name']}")
         
-        # Seed varieties
-        varieties = [
-            Variety(id=1, name='Cabernet Sauvignon'),
-            Variety(id=2, name='Shiraz'),
-            Variety(id=3, name='Sauvignon Blanc')
+        # Seed varieties if they don't exist
+        seed_varieties = [
+            {'id': 1, 'name': 'Cabernet Sauvignon'},
+            {'id': 2, 'name': 'Shiraz'},
+            {'id': 3, 'name': 'Sauvignon Blanc'}
         ]
-        db.session.add_all(varieties)
         
-        # Seed regions
-        regions = [
-            Region(id=1, name='Bordeaux', country='France'),
-            Region(id=2, name='Barossa Valley', country='Australia'),
-            Region(id=3, name='Napa Valley', country='United States'),
-            Region(id=4, name='Tuscany', country='Italy'),
-            Region(id=5, name='Marlborough', country='New Zealand')
-        ]
-        db.session.add_all(regions)
+        for variety_data in seed_varieties:
+            # Check if variety already exists by ID or name
+            existing_variety = Variety.query.filter(
+                (Variety.id == variety_data['id']) | 
+                (Variety.name == variety_data['name'])
+            ).first()
+            
+            if not existing_variety:
+                db.session.add(Variety(**variety_data))
+                print(f"Added variety: {variety_data['name']}")
         
-        # Seed shelves
-        shelves = [
-            Shelf(id=1, location_code='A1', description='Premium Red Wines'),
-            Shelf(id=2, location_code='A2', description='Australian Wines'),
-            Shelf(id=3, location_code='B1', description='American Wines'),
-            Shelf(id=4, location_code='B2', description='Italian Wines'),
-            Shelf(id=5, location_code='C1', description='White Wines')
+        # Seed regions if they don't exist
+        seed_regions = [
+            {'id': 1, 'name': 'Bordeaux', 'country': 'France'},
+            {'id': 2, 'name': 'Barossa Valley', 'country': 'Australia'},
+            {'id': 3, 'name': 'Napa Valley', 'country': 'United States'},
+            {'id': 4, 'name': 'Tuscany', 'country': 'Italy'},
+            {'id': 5, 'name': 'Marlborough', 'country': 'New Zealand'}
         ]
-        db.session.add_all(shelves)
         
-        # Seed wines
-        wines = [
-            Wine(
-                name='Chateau Margaux', 
-                producer_id=1, 
-                vintage=2015, 
-                variety_id=1, 
-                region_id=1, 
-                price=450.00, 
-                purchase_date=datetime.strptime('2025-01-15', '%Y-%m-%d'), 
-                purchase_price=400.00, 
-                bottle_size_ml=750, 
-                quantity=10, 
-                alcohol_content=13.5, 
-                color='Red', 
-                status='In Stock', 
-                tasting_notes='Rich and complex with notes of blackcurrant and cedar', 
-                shelf_id=1
-            ),
-            Wine(
-                name='Penfolds Grange', 
-                producer_id=2, 
-                vintage=2018, 
-                variety_id=2, 
-                region_id=2, 
-                price=700.00, 
-                purchase_date=datetime.strptime('2025-02-10', '%Y-%m-%d'), 
-                purchase_price=650.00, 
-                bottle_size_ml=750, 
-                quantity=5, 
-                alcohol_content=14.5, 
-                color='Red', 
-                status='In Stock', 
-                tasting_notes='Full-bodied with dark fruit and spice notes', 
-                shelf_id=2
-            ),
-            Wine(
-                name='Opus One', 
-                producer_id=3, 
-                vintage=2017, 
-                variety_id=1, 
-                region_id=3, 
-                price=350.00, 
-                purchase_date=datetime.strptime('2025-03-05', '%Y-%m-%d'), 
-                purchase_price=300.00, 
-                bottle_size_ml=750, 
-                quantity=8, 
-                alcohol_content=14.0, 
-                color='Red', 
-                status='In Stock', 
-                tasting_notes='Elegant with layers of blackberry and mocha', 
-                shelf_id=3
-            ),
-            Wine(
-                name='Sassicaia', 
-                producer_id=4, 
-                vintage=2016, 
-                variety_id=1, 
-                region_id=4, 
-                price=300.00, 
-                purchase_date=datetime.strptime('2025-04-01', '%Y-%m-%d'), 
-                purchase_price=280.00, 
-                bottle_size_ml=750, 
-                quantity=12, 
-                alcohol_content=13.0, 
-                color='Red', 
-                status='In Stock', 
-                tasting_notes='Balanced with red cherry and herbal notes', 
-                shelf_id=4
-            ),
-            Wine(
-                name='Cloudy Bay Sauvignon Blanc', 
-                producer_id=5, 
-                vintage=2021, 
-                variety_id=3, 
-                region_id=5, 
-                price=30.00, 
-                purchase_date=datetime.strptime('2025-01-20', '%Y-%m-%d'), 
-                purchase_price=25.00, 
-                bottle_size_ml=750, 
-                quantity=20, 
-                alcohol_content=12.5, 
-                color='White', 
-                status='In Stock', 
-                tasting_notes='Crisp and refreshing with tropical fruit flavors', 
-                shelf_id=5
-            )
+        for region_data in seed_regions:
+            # Check if region already exists by ID or name
+            existing_region = Region.query.filter(
+                (Region.id == region_data['id']) | 
+                (Region.name == region_data['name'])
+            ).first()
+            
+            if not existing_region:
+                db.session.add(Region(**region_data))
+                print(f"Added region: {region_data['name']}")
+        
+        # Seed shelves if they don't exist
+        seed_shelves = [
+            {'id': 1, 'location_code': 'A1', 'description': 'Premium Red Wines'},
+            {'id': 2, 'location_code': 'A2', 'description': 'Australian Wines'},
+            {'id': 3, 'location_code': 'B1', 'description': 'American Wines'},
+            {'id': 4, 'location_code': 'B2', 'description': 'Italian Wines'},
+            {'id': 5, 'location_code': 'C1', 'description': 'White Wines'}
         ]
-        db.session.add_all(wines)
+        
+        for shelf_data in seed_shelves:
+            # Check if shelf already exists by ID or location_code
+            existing_shelf = Shelf.query.filter(
+                (Shelf.id == shelf_data['id']) | 
+                (Shelf.location_code == shelf_data['location_code'])
+            ).first()
+            
+            if not existing_shelf:
+                db.session.add(Shelf(**shelf_data))
+                print(f"Added shelf: {shelf_data['location_code']}")
+        
+        # Commit reference data to get IDs
+        db.session.commit()
+        
+        # Seed wines from JSON file, avoiding duplicates
+        try:
+            json_path = os.path.join(os.path.dirname(__file__), 'wines.json')
+            with open(json_path, 'r') as file:
+                wines_data = json.load(file)
+            
+            wines_added = 0
+            for wine_data in wines_data:
+                # Check if wine already exists by name, producer_id, and vintage
+                existing_wine = Wine.query.filter(
+                    (Wine.name == wine_data['name']) & 
+                    (Wine.producer_id == wine_data['producer_id']) & 
+                    (Wine.vintage == wine_data['vintage'])
+                ).first()
+                
+                if not existing_wine:
+                    # Convert purchase_date string to datetime object
+                    if 'purchase_date' in wine_data and wine_data['purchase_date']:
+                        wine_data['purchase_date'] = datetime.strptime(wine_data['purchase_date'], '%Y-%m-%d')
+                    
+                    # Create Wine object from dictionary
+                    wine = Wine(**wine_data)
+                    db.session.add(wine)
+                    wines_added += 1
+                    print(f"Added wine: {wine_data['name']} ({wine_data['vintage']})")
+            
+            if wines_added > 0:
+                print(f"Added {wines_added} new wines to the database")
+            else:
+                print("No new wines added - all wines from JSON already exist in the database")
+                
+        except Exception as e:
+            print(f"Error loading wines from JSON: {e}")
+            return False
         
         # Commit all changes
         db.session.commit()
-        print("Database seeded successfully!")
+        print("Database seeding completed successfully!")
 
 if __name__ == '__main__':
     seed_database()
