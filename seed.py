@@ -88,6 +88,77 @@ def seed_database():
                 db.session.add(Shelf(**shelf_data))
                 print(f"Added shelf: {shelf_data['location_code']}")
         
+        # Seed customers
+        # Default customer data to use if customers.json is empty
+        default_customers = [
+            {
+                'id': 1,
+                'name': 'John Smith',
+                'email': 'john.smith@example.com',
+                'phone': '555-123-4567',
+                'address': '123 Main St, New York, NY 10001',
+                'preferences': 'Prefers red wines from Bordeaux',
+                'vip_status': True
+            },
+            {
+                'id': 2,
+                'name': 'Emily Johnson',
+                'email': 'emily.johnson@example.com',
+                'phone': '555-234-5678',
+                'address': '456 Oak Ave, San Francisco, CA 94102',
+                'preferences': 'Collects vintage Champagne',
+                'vip_status': True
+            },
+            {
+                'id': 3,
+                'name': 'Michael Williams',
+                'email': 'michael.williams@example.com',
+                'phone': '555-345-6789',
+                'address': '789 Pine St, Chicago, IL 60611',
+                'preferences': 'Enjoys Australian Shiraz',
+                'vip_status': False
+            }
+        ]
+        
+        # Try to load customers from JSON file
+        customers_data = []
+        json_path = os.path.join(os.path.dirname(__file__), 'customers.json')
+        try:
+            if os.path.exists(json_path) and os.path.getsize(json_path) > 0:
+                with open(json_path, 'r') as file:
+                    customers_data = json.load(file)
+                print("Loaded customers data from JSON file")
+            else:
+                customers_data = default_customers
+                print("Using default customers data (customers.json is empty or missing)")
+        except Exception as e:
+            customers_data = default_customers
+            print(f"Error loading customers from JSON: {e}")
+            print("Using default customers data instead")
+        
+        customers_added = 0
+        for customer_data in customers_data:
+            # Check if customer already exists by email (unique field) or ID
+            existing_customer = Customer.query.filter(
+                (Customer.email == customer_data.get('email')) | 
+                (Customer.id == customer_data.get('id'))
+            ).first()
+            
+            if not existing_customer:
+                # Ensure vip_status is boolean
+                if 'vip_status' in customer_data and not isinstance(customer_data['vip_status'], bool):
+                    customer_data['vip_status'] = bool(customer_data['vip_status'])
+                
+                customer = Customer(**customer_data)
+                db.session.add(customer)
+                customers_added += 1
+                print(f"Added customer: {customer_data['name']}")
+        
+        if customers_added > 0:
+            print(f"Added {customers_added} new customers to the database")
+        else:
+            print("No new customers added - all customers already exist in the database")
+        
         # Commit reference data to get IDs
         db.session.commit()
         
