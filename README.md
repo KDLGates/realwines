@@ -23,18 +23,19 @@ This application serves as the backend system for Real Wines' cellar management.
 
 ## Tech Stack
 
-- **Backend**: Flask (Python)
+- **Backend**: Flask (Python) and .NET
+- **Connectivity**: Microsoft On-premesis Data Gateway
 - **ORM**: SQLAlchemy
 - **Database**: PostgreSQL
-- **Authentication**: Flask-Login
-- **Forms**: Flask-WTF
-- **API**: Flask-RESTful
-
+- **Forms**: SharePoint
+- **API**: Microsoft Power Automate Custom Connector
+- 
 ## Database Schema
 
 The PostgreSQL database schema is defined in the [Proposed Schemae.md](Proposed%20Schemae.md) document. 
 
-The schema includes the following main tables:
+The schema includes the following main tables. The design is centrality about the Wines table and several foreign keys:
+
 - `wines`: Core wine inventory and details
 - `producers`: Wineries and wine producers
 - `varieties`: Grape varietals
@@ -48,17 +49,7 @@ Refer to the schema document for complete field listings and relationships.
 
 ## Mock Data
 
-The system is pre-populated with mock data representing a diverse collection of wines. The mock data includes:
-
-- Classic Bordeaux blends with appropriate classifications
-- Burgundy Pinot Noirs and Chardonnays with vineyard designations
-- Napa Valley Cabernets with vintage variations
-- Italian Super Tuscans and Barolos with aging notes
-- Champagnes with various dosage levels and disgorgement dates
-- German Rieslings with prädikat classifications
-- Small-production wines from boutique producers
-- Rare and allocated limited releases
-- Various bottle formats (standard, magnum, half-bottle)
+The system is pre-populated with mock data representing a diverse collection of wines and customers.
 
 ## Installation
 
@@ -135,15 +126,8 @@ flask db upgrade
 
 ## Testing
 
-Run tests using pytest:
-```
-pytest
-```
+Python scripts to test the database health and connectivity are included.
 
 ## License
 
 [MIT License](LICENSE)
-
-## Contact
-
-For questions or support, contact cellar@realwines.com
