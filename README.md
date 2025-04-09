@@ -104,12 +104,12 @@ The API provides the following endpoints:
 - `DELETE /api/wines/<id>`: Remove a wine
 - `GET /api/wines/search`: Search wines with filters
 
+Routes of this `/api/<tablename>` format are also defined for the other tables.
+
 ## Usage
 
 After installation, you can access:
 
-- Web interface: http://localhost:5000/
-- Admin interface: http://localhost:5000/admin (login required)
 - API: http://localhost:5000/api/wines
 
 ## Development
