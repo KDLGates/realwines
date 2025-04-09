@@ -26,7 +26,7 @@ This application serves as the backend and database management system for Real W
 - **Database**: PostgreSQL
 - **Forms**: SharePoint
 - **API**: Microsoft Power Automate Custom Connector
-- 
+
 ## Database Schema
 
 The PostgreSQL database schema is defined in the [Proposed Schemae.md](Proposed%20Schemae.md) document. 
