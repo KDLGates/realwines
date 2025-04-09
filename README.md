@@ -4,7 +4,7 @@ A Flask and SQLAlchemy application that manages the Real Wines cellar inventory 
 
 ## Overview
 
-This application serves as the backend system for Real Wines' cellar management. The MVP provides basic functionality to track wines in the cellar with comprehensive wine data. The system connects to a PostgreSQL database that stores information about each wine in the collection.
+This application serves as the backend and database management system for Real Wines' cellar management. The MVP provides basic functionality to track wines in the cellar with comprehensive wine data. The system generates, populates, tests, connects, and performs CRUD (Create, Replace, Update, Delete) operations using a PostgreSQL database that stores information about each wine in the collection.
 
 ## Features (MVP)
 
@@ -12,14 +12,11 @@ This application serves as the backend system for Real Wines' cellar management.
 - **Wine Details**: Store and retrieve comprehensive information about each wine
 - **Search & Filter**: Find wines by various attributes (variety, region, vintage, etc.)
 - **Simple API**: RESTful endpoints for integration with other systems
-- **Admin Interface**: Basic web interface for cellar management
 
 ## Planned Extensions
 
-- **Approval System**: Process for approving new wines arriving in the cellar
 - **Vendor Management**: Track wine suppliers and their offerings
 - **Purchase Management**: Handle removal of wines when sold or consumed
-- **Waitlist Management**: Track interest in specific wines for reordering
 
 ## Tech Stack
 
