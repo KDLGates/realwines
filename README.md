@@ -21,7 +21,7 @@ This application serves as the backend and database management system for Real W
 ## Tech Stack
 
 - **Backend**: Flask (Python) and .NET
-- **Connectivity**: Microsoft On-premesis Data Gateway
+- **Connectivity**: Microsoft On-premises Data Gateway
 - **ORM**: SQLAlchemy
 - **Database**: PostgreSQL
 - **Forms**: SharePoint
